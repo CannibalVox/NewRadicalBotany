@@ -1,0 +1,15 @@
+[
+{
+  "modid": "newradicalbotany",
+  "name": "New Radical Botany",
+  "description": "Don't forget, you only get what you give.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["CanVox"],
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
