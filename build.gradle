@@ -82,3 +82,12 @@ def parseConfig(File config) {
         return (new ConfigSlurper().parse(prop))
     }
 }
+
+afterEvaluate {
+    allprojects { project ->
+        if (project.plugins.hasPlugin("idea"))
+        {
+            idea { module { inheritOutputDirs = true } }
+        }
+    }
+}

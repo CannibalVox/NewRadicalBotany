@@ -1,10 +1,17 @@
 package net.technicpack.newradicalbotany.items;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.technicpack.newradicalbotany.NewRadicalBotany;
 
@@ -19,6 +26,8 @@ public class ItemRadicalFertilizer extends Item {
     private Object botaniaClientProxy = null;
     private Method wispFxMethod = null;
 
+    private IIcon[] icons = new IIcon[4];
+
     public ItemRadicalFertilizer() {
         super();
 
@@ -30,6 +39,59 @@ public class ItemRadicalFertilizer extends Item {
             //Eat this- we just won't be able to create wisps
         } catch (NoSuchMethodException ex) {
             //Eat this- we just won't be able to create wisps
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void registerIcons(IIconRegister register) {
+        for (int i = 0; i < 4; i++) {
+            icons[i] = register.registerIcon("newradicalbotany:fertilizer"+Integer.toString(i));
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean requiresMultipleRenderPasses()
+    {
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getRenderPasses(int metadata)
+    {
+        return 4;
+    }
+
+    /**
+     * Gets an icon index based on an item's damage value and the given render pass
+     */
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamageForRenderPass(int p_77618_1_, int p_77618_2_)
+    {
+        return p_77618_2_ >= 4 ? icons[0] : icons[p_77618_2_];
+    }
+
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack itemStack, int pass)
+    {
+        int[] flowers = getFlowerArray(itemStack);
+
+        if (flowers != null && flowers.length > 0 && flowers.length <= 4) {
+            pass %= flowers.length;
+            return MapColor.getMapColorForBlockColored(flowers[pass]).colorValue;
+        }
+
+        switch (pass) {
+            case 1:
+                return 0x3A7C24;
+            case 2:
+                return 0x9D3E12;
+            case 3:
+                return 0x9D92A8;
+            default:
+                return 0x82D775;
         }
     }
 
@@ -89,6 +151,20 @@ public class ItemRadicalFertilizer extends Item {
     }
 
     private int getFlowerColor(ItemStack stack, Random random) {
+        int[] flowers = getFlowerArray(stack);
+
+        if (flowers != null && flowers.length != 0) {
+            return flowers[random.nextInt(flowers.length)];
+        }
         return random.nextInt(16);
+    }
+
+    private int[] getFlowerArray(ItemStack stack) {
+        NBTTagCompound tag = stack.getTagCompound();
+
+        if (tag != null && tag.hasKey("Flowers", 11))
+            return tag.getIntArray("Flowers");
+
+        return null;
     }
 }
