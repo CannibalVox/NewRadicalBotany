@@ -119,7 +119,7 @@ public class ItemRadicalFertilizer extends Item {
         for (int i = 0; i < flowers.length; i++) {
             info.add(
                 " \u00a79* \u00a7" +
-                Integer.toHexString(flowers[i]) +
+                Integer.toHexString(blockColorToTextColor(flowers[i])) +
                 StatCollector.translateToLocal("tile.botania:flower"+Integer.toString(flowers[i])+".name")
             );
         }
@@ -196,5 +196,44 @@ public class ItemRadicalFertilizer extends Item {
             return tag.getIntArray("Flowers");
 
         return null;
+    }
+
+    private int blockColorToTextColor(int color) {
+        switch(color) {
+            case 0:
+                return 15;
+            case 1:
+                return 6;
+            case 2:
+                return 13;
+            case 3:
+                return 9;
+            case 4:
+                return 14;
+            case 5:
+                return 10;
+            case 6:
+                return 13;
+            case 7:
+                return 8;
+            case 8:
+                return 7;
+            case 9:
+                return 11;
+            case 10:
+                return 5;
+            case 11:
+                return 1;
+            case 12:
+                return 6;
+            case 13:
+                return 2;
+            case 14:
+                return 12;
+            case 15:
+                return 0;
+            default:
+                return 7;
+        }
     }
 }
