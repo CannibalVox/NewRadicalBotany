@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.technicpack.newradicalbotany.NewRadicalBotany;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RadicalFertilizerRecipe implements IRecipe {
 
@@ -62,6 +63,8 @@ public class RadicalFertilizerRecipe implements IRecipe {
             if (!flowerList.contains(flower))
                 flowerList.add(flower);
         }
+
+        Collections.sort(flowerList);
 
         int[] finalList = new int[flowerList.size()];
 
