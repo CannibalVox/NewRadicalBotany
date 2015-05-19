@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-defaultTasks 'clean', 'build', 'incrementBuildNumber'
+defaultTasks 'clean', 'build'
 
 ext.configFile = file('build.properties')
 ext.config = parseConfig(configFile)
 
-version = "${config.version}-${config.build_number}"
+version = "${config.version}"
 group= "net.technicpack" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "newradicalbotany"
 
@@ -30,7 +30,6 @@ minecraft {
     version = "1.7.10-10.13.2.1291"
     runDir = "eclipse"
 
-    replace 'GRADLE:BUILD', config.build_number
     replace 'GRADLE:VERSION', config.version
 
     replaceIn 'NewRadicalBotany.java'
@@ -65,13 +64,6 @@ processResources
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
-    }
-}
-
-task incrementBuildNumber(dependsOn: 'reobf') << {
-    config.build_number = (config.build_number.toString().toInteger()) + 1
-    configFile.withWriter {
-        config.toProperties().store(it, "")
     }
 }
 

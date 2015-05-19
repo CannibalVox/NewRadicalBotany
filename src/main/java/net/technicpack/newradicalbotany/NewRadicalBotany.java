@@ -14,7 +14,7 @@ import net.technicpack.newradicalbotany.recipes.RadicalFertilizerRecipe;
 @Mod(modid = NewRadicalBotany.MODID, version = NewRadicalBotany.VERSION, dependencies = "required-after:Botania")
 public class NewRadicalBotany {
     public static final String MODID = "newradicalbotany";
-    public static final String VERSION = "GRADLE:VERSION-GRADLE:BUILD";
+    public static final String VERSION = "GRADLE:VERSION";
 
     public static Item fertilizer;
 
