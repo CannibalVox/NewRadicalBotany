@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.technicpack.newradicalbotany.NewRadicalBotany;
 
@@ -92,6 +93,35 @@ public class ItemRadicalFertilizer extends Item {
                 return 0x9D92A8;
             default:
                 return 0x82D775;
+        }
+    }
+
+    private static final StringBuilder allFlowersBuilder = new StringBuilder();
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List info, boolean advanced) {
+        info.add("");
+        int[] flowers = getFlowerArray(stack);
+        if (flowers == null || flowers.length == 0) {
+            String allFlowers = StatCollector.translateToLocal("gui.newradicalbotany.fertilizer.all");
+            allFlowersBuilder.delete(0, allFlowersBuilder.length());
+            for (int i = 0; i < allFlowers.length(); i++) {
+                int color = player.worldObj.rand.nextInt(15)+1;
+                allFlowersBuilder.append("\u00a7");
+                allFlowersBuilder.append(Integer.toHexString(color));
+                allFlowersBuilder.append(allFlowers.charAt(i));
+            }
+            info.add(allFlowersBuilder.toString());
+            return;
+        }
+
+        info.add(StatCollector.translateToLocal("gui.newradicalbotany.fertilizer.some"));
+        for (int i = 0; i < flowers.length; i++) {
+            info.add(
+                " \u00a79* \u00a7" +
+                Integer.toHexString(flowers[i]) +
+                StatCollector.translateToLocal("tile.botania:flower"+Integer.toString(flowers[i])+".name")
+            );
         }
     }
 
