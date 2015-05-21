@@ -35,7 +35,23 @@ minecraft {
     replaceIn 'NewRadicalBotany.java'
 }
 
+repositories {
+    ivy {
+        name = 'ThaumCraft 4 API'
+        artifactPattern 'https://dl.dropboxusercontent.com/u/47135879/[module](-[classifier])-1.7.10-[revision](.[ext])'
+    }
+    maven {
+        name 'DVS1 Maven FS'
+        url 'http://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        name 'Chicken Bones'
+        url 'http://chickenbones.net/maven'
+    }
+}
+
 dependencies {
+    compile 'Azanor:Thaumcraft:4.2.3.5:deobf@jar'
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
@@ -73,6 +89,17 @@ def parseConfig(File config) {
         prop.load(it)
         return (new ConfigSlurper().parse(prop))
     }
+}
+
+def manifestEntries = [
+        "Built-By": System.properties['user.name'],
+        "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+        "FMLCorePlugin": "net.technicpack.newradicalbotany.coremod.NewRadicalBotanyCoremod",
+        "FMLCorePluginContainsFMLMod": 'true'
+]
+
+jar {
+    manifest.mainAttributes(manifestEntries)
 }
 
 afterEvaluate {
