@@ -33,9 +33,11 @@ public class ItemRadicalFertilizer extends Item {
         super();
 
         try {
-            Class botaniaClientProxy = Class.forName("vazkii.botania.client.core.proxy.ClientProxy");
-            this.botaniaClientProxy = NewRadicalBotany.proxy.initializeBotaniaProxy(botaniaClientProxy);
-            wispFxMethod = botaniaClientProxy.getMethod("wispFX", World.class, double.class, double.class, double.class, float.class, float.class, float.class, float.class, float.class);
+            Class botaniaClientProxy = NewRadicalBotany.proxy.getBotaniaClientProxyClass();
+            if (botaniaClientProxy != null)
+                this.botaniaClientProxy = NewRadicalBotany.proxy.initializeBotaniaProxy(botaniaClientProxy);
+            if (this.botaniaClientProxy != null)
+                wispFxMethod = botaniaClientProxy.getMethod("wispFX", World.class, double.class, double.class, double.class, float.class, float.class, float.class, float.class, float.class);
         } catch (ClassNotFoundException ex) {
             //Eat this- we just won't be able to create wisps
         } catch (NoSuchMethodException ex) {
