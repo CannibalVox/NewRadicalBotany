@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import cpw.mods.fml.common.*;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.versioning.DefaultArtifactVersion;
@@ -63,6 +64,10 @@ public class NewRadicalBotany extends DummyModContainer {
 
         fertilizer = new ItemRadicalFertilizer().setTextureName("fertilizer").setUnlocalizedName("fertilizer").setCreativeTab(CreativeTabs.tabMisc);
         GameRegistry.registerItem(fertilizer, "fertilizer");
+    }
+
+    @Subscribe
+    public void postInit(FMLPostInitializationEvent event) {
         GameRegistry.addRecipe(new RadicalFertilizerRecipe());
     }
 }
